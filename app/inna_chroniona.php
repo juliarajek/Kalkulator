@@ -1,6 +1,5 @@
 <?php
 require_once dirname(__FILE__).'/../config.php';
-//ochrona widoku
 include _ROOT_PATH.'/app/security/check.php';
 ?>
 <!DOCTYPE HTML>

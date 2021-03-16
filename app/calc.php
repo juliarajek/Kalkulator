@@ -2,13 +2,13 @@
 
 require_once dirname(__FILE__).'/../config.php';
 include _ROOT_PATH.'/app/security/check.php';
-function parametry(&$x,&$y,&$z){
+function getParams(&$x,&$y,&$z){
 $x = isset( $_REQUEST ['x']) ? $_REQUEST['x']:null;
 $y = isset( $_REQUEST ['y']) ? $_REQUEST['y']:null;
 $z = isset( $_REQUEST ['z']) ? $_REQUEST['z']:null;
 }
 
-function sprawdzenie(&$x,&$y,&$z,&$massages){
+function validate(&$x,&$y,&$z,&$massages){
     if ( ! (isset($x) && isset($y) && isset($z))) {return false;}
     if ( $x == "") {$messages [] = 'Nie podano kwoty kredytu';}
     if ( $y == "") {$messages [] = 'Nie podano na ile lat';}
@@ -20,7 +20,7 @@ function sprawdzenie(&$x,&$y,&$z,&$massages){
     else return true;
 }
 
-function obliczenia(&$x,&$y,&$z,&$massages,&$wynik){
+function process(&$x,&$y,&$z,&$massages,&$wynik){
     global $role;
     
     $x=intval($x);
@@ -35,9 +35,9 @@ $z = null;
 $wynik= null;
 $massages = array ();
 
-parametry($x, $y, $z);
-if (sprawdzenie($x, $y, $z, $massages)) {
-    obliczenia($x, $y, $z, $massages, $wynik);
+getParams($x, $y, $z);
+if (validate($x, $y, $z, $massages)) {
+    process($x, $y, $z, $massages, $wynik);
 }
 
 
