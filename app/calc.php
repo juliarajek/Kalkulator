@@ -1,0 +1,45 @@
+<?php
+
+require_once dirname(__FILE__).'/../config.php';
+include _ROOT_PATH.'/app/security/check.php';
+function parametry(&$x,&$y,&$z){
+$x = isset( $_REQUEST ['x']) ? $_REQUEST['x']:null;
+$y = isset( $_REQUEST ['y']) ? $_REQUEST['y']:null;
+$z = isset( $_REQUEST ['z']) ? $_REQUEST['z']:null;
+}
+
+function sprawdzenie(&$x,&$y,&$z,&$massages){
+    if ( ! (isset($x) && isset($y) && isset($z))) {return false;}
+    if ( $x == "") {$messages [] = 'Nie podano kwoty kredytu';}
+    if ( $y == "") {$messages [] = 'Nie podano na ile lat';}
+    if ( $z == "") {$messages [] = 'Nie podano oprocentowania';}
+    if (count($massages)!=0){return false;}
+    if (! is_numeric( $x )) {$messages [] = 'Pierwsza wartość nie jest liczbą całkowitą';}
+    if (! is_numeric( $y )) {$messages [] = 'Druga wartość nie jest liczbą całkowitą';}	
+    if (! is_numeric( $z )) {$messages [] = 'Trzecia wartość nie jest liczbą całkowitą';}
+    else return true;
+}
+
+function obliczenia(&$x,&$y,&$z,&$massages,&$wynik){
+    global $role;
+    
+    $x=intval($x);
+    $y=intval($y);
+    $z=intval($z);
+    $wynik = $x*$y*$z*0.01;
+}
+	
+$x = null;
+$y = null;
+$z = null;	
+$wynik= null;
+$massages = array ();
+
+parametry($x, $y, $z);
+if (sprawdzenie($x, $y, $z, $massages)) {
+    obliczenia($x, $y, $z, $massages, $wynik);
+}
+
+
+	
+include 'calc_view.php';
